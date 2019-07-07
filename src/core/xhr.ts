@@ -1,7 +1,7 @@
-import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from './types'
-import { parseHeaders } from './helpers/headers'
-import { transformResponse } from './helpers/data'
-import { AxiosError } from './helpers/error'
+import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from '../types'
+import { parseHeaders } from '../helpers/headers'
+import { transformResponse } from '../helpers/data'
+import { AxiosError } from '../helpers/error'
 
 export default function xhr(config: AxiosRequestConfig): AxiosPromise {
   return new Promise((resolve, reject) => {
@@ -13,7 +13,8 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
     if (timeout) {
       request.timeout = timeout
     }
-    request.open(method.toUpperCase(), url, true)
+     // [!] 非空断言操作符 能确定变量值一定不为空时使用。 -- from TypeScript 2.0
+    request.open(method.toUpperCase(), url!, true)
     request.onreadystatechange = () => {
       if (request.readyState !== XMLHttpRequest.DONE) {
         return
