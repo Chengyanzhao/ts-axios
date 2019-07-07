@@ -1,9 +1,15 @@
 import { Interface } from "readline";
 
 export interface Axios {
+  defaults: AxiosRequestConfig
+
   interceptors: {
     request: AxiosInterceptorManager<AxiosRequestConfig>,
     response: AxiosInterceptorManager<AxiosResponse>,
+  }
+
+  default: {
+
   }
 
   request<T = any>(config: AxiosRequestConfig): AxiosPromise<T>
