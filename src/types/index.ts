@@ -8,10 +8,6 @@ export interface Axios {
     response: AxiosInterceptorManager<AxiosResponse>,
   }
 
-  default: {
-
-  }
-
   request<T = any>(config: AxiosRequestConfig): AxiosPromise<T>
 
   get<T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
@@ -28,7 +24,6 @@ export interface Axios {
 
   patch<T = any>(url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise<T>
 
-  // interceptors<T = any>: AxiosInterceptorManager
 }
 
 // 函数类型接口
@@ -66,6 +61,9 @@ export interface AxiosRequestConfig {
   params?: any
   responseType?: XMLHttpRequestResponseType,
   timeout?: number
+
+  [propName: string]: any // 字符串索引签名
+
 }
 
 export interface AxiosResponse<T = any> {
