@@ -64,6 +64,12 @@ export interface AxiosRequestConfig {
 
   [propName: string]: any // 字符串索引签名
 
+  transformRequest?: AxiosTransformer | AxiosTransformer[]
+  transformResponse?: AxiosTransformer | AxiosTransformer[]
+}
+
+export interface AxiosTransformer {
+  (data: any, headers?: any): any
 }
 
 export interface AxiosResponse<T = any> {

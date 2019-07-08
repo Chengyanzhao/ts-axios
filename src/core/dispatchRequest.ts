@@ -3,7 +3,7 @@ import xhr from './xhr'
 import { bulidURL } from '../helpers/url'
 import { transformRequest, transformResponse } from '../helpers/data'
 import { processHeaders, flattenHeaders } from '../helpers/headers'
-
+import transform from './transform'
 
 export default function axios(config: AxiosRequestConfig): AxiosPromise {
   processConfig(config)
@@ -14,8 +14,7 @@ export default function axios(config: AxiosRequestConfig): AxiosPromise {
 
 function processConfig(config: AxiosRequestConfig): void {
   config.url = transformUrl(config)
-  config.headers = transformRequestHeaders(config)
-  config.data = transformRequestData(config)
+  config.data = transform(config.data, config.headers, config.transformRequest)
   config.headers = flattenHeaders(config.headers, config.method!)
 }
 
@@ -24,16 +23,8 @@ function transformUrl(config: AxiosRequestConfig): string {
   return bulidURL(url!, params) // 非空断言操作符 能确定变量值一定不为空时使用。 -- from TypeScript 2.0
 }
 
-function transformRequestData(config: AxiosRequestConfig): any {
-  return transformRequest(config.data)
-}
-
-function transformRequestHeaders(config: AxiosRequestConfig): any {
-  const { headers = {}, data } = config
-  return processHeaders(headers, data)
-}
 
 function tranformResponseData(res: AxiosResponse): AxiosResponse {
-  res.data = transformResponse(res.data)
+  res.data = transform(res.data, res.headers, res.config.transformResponse)
   return res
 }
